@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("plugin.serialization") version "1.8"
 }
 
 android {
@@ -68,4 +69,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.google.android.material:material:1.12.0")
+//    supabase
+    implementation ("com.github.supabase-community:supabase-android:1.0.0")
+    implementation(platform("io.github.jan-tennert.supabase:bom:v1.24.04"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.ktor:ktor-client-android:14")
+
 }
