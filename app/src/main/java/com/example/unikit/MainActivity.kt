@@ -59,7 +59,6 @@ fun UnikitApp() {
         composable("horario_screen") { HorarioScreen(navController = navController) }
         composable("agenda_screen") { AgendaScreen(navController = navController) }
         composable("cuaderno_screen") { CuadernoScreen(navController = navController) }
-        //composable("cuaderno_screen"){ CuadernoScreen(modifier = )}
         composable("ajustes_screen") { AjustesScreen(navController = navController) }
         composable("Creditos_Screen") { Creditos_screen(navController = navController) }
 
@@ -76,10 +75,10 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            /* Image(
-                            painter = painterResource(id = R.mipmap.ic_launcher_round), //no carga imagen
+             Image(
+                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
                             contentDescription = "Imagen creditos"
-                        )*/
+                        )
             Card(
                 modifier = Modifier.padding(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -101,6 +100,9 @@ fun LoginScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = {
+                            //function auth
+                            //conection DB
+                            //comparacion de credenciales y auth inicio sesion
                             navController.navigate("menu_screen") // navigate to home screen (original behavior)
                         }
                     ) {
