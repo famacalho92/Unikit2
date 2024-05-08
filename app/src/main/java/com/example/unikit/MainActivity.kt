@@ -36,9 +36,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.example.unikit.ui.theme.UnikitTheme
-import com.supabase.client.SupabaseClient
-import com.supabase.client.kotlin.init
-import com.supabase.client.kotlin.Client
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
