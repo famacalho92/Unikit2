@@ -3,7 +3,7 @@ package network
 import io.github.jan.supabase.buildUrl
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
-import io.github.jan.supabase.gotrue.GoTrue
+//import io.github.jan.supabase.gotrue.GoTrue
 
 object SupaBaseClient {
     val supabase = createSupabaseClient(
