@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.scope.ProjectInfo.Companion.getBaseName
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,6 +10,11 @@ android {
     namespace = "com.example.unikit"
     compileSdk = 34
 
+//    val key : String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir)
+//        .getProperty("supabaseKey")
+//    val url : String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir)
+//        .getProperty("supabaseUrl")
+
     defaultConfig {
         applicationId = "com.example.unikit"
         minSdk = 27
@@ -15,10 +22,14 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
+//        buildConfigField("string ", "supabaseKey","\"$key\"")
+//        buildConfigField("string ", "supabaseUrl","\"$url\"")
+
     }
 
     buildTypes {
@@ -73,6 +84,7 @@ dependencies {
  //   implementation ("com.github.supabase-community:supabase-android:1.0.0")
     implementation(platform("io.github.jan-tennert.supabase:bom:2.4.0-beta-1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
+//    implementation("io.github.jan-tennert.supabase:gotrue-kt:1.3.2")
     implementation("io.ktor:ktor-client-android:2.3.10")
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 }
