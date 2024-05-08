@@ -71,8 +71,8 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 //    supabase
     implementation ("com.github.supabase-community:supabase-android:1.0.0")
-    implementation(platform("io.github.jan-tennert.supabase:bom:v1.24.04"))
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.0-beta-1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    implementation("io.ktor:ktor-client-android:14")
+    implementation("io.ktor:ktor-client-android:2.3.10")
 
 }
