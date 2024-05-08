@@ -75,10 +75,12 @@ fun LoginScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-             Image(
-                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
-                            contentDescription = "Imagen creditos"
-                        )
+            // Cargar la imagen desde los recursos
+            val image = painterResource(id = R.mipmap.ic_launcher)
+            Image(
+                painter = image,
+                contentDescription = "Imagen de créditos"
+            )
             Card(
                 modifier = Modifier.padding(16.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -114,6 +116,7 @@ fun LoginScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun MenuScreen(navController: NavController) {
