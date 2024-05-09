@@ -24,9 +24,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.LaunchedEffect
 //import androidx.compose.material3.Typography
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
@@ -34,9 +37,16 @@ import androidx.compose.ui.res.painterResource
 //import androidx.navigation.compose.composable
 //import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import com.example.unikit.data.model.UserState
 import com.example.unikit.ui.theme.UnikitTheme
 import io.github.jan.supabase.createSupabaseClient
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 //import io.github.jan.supabase.postgrest.Postgrest
 
 //val supabase = createSupabaseClient(
@@ -63,7 +73,7 @@ class MainActivity : ComponentActivity() {
 fun UnikitApp() {
     val navController = rememberNavController() // Crea una instancia de NavController
     NavHost(navController = navController, startDestination = "login") {
-        composable("login") { LoginScreen(navController = navController) }
+//        composable("login") { LoginScreen(navController = navController) }
         composable("menu_screen") { MenuScreen(navController = navController) }
         composable("horario_screen") { HorarioScreen(navController = navController) }
         composable("agenda_screen") { AgendaScreen(navController = navController) }
@@ -74,56 +84,147 @@ fun UnikitApp() {
     }
 }
 
-@Composable
-fun LoginScreen(navController: NavController) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-//             Image(
-//                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
-//                            contentDescription = "Imagen creditos"
-//                        )
-            Card(
-                modifier = Modifier.padding(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = "Unikit", style = MaterialTheme.typography.headlineMedium)
-                    Spacer(modifier = Modifier.height(16.dp))
-                    OutlinedTextField(
-                        value = "Ingresa tu correo electrónico",
-                        onValueChange = {},
-                        label = { Text("Correo electrónico") }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = "Ingresa tu contraseña",
-                        onValueChange = {},
-                        label = { Text("Contraseña") }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-                            //function auth
-                            //conection DB
-                            //comparacion de credenciales y auth inicio sesion
-                            navController.navigate("menu_screen") // navigate to home screen (original behavior)
-                        }
-                    ) {
-                        Text("Iniciar sesión")
-                    }
+//@Composable
+//fun LoginScreen(navController: NavController) {
+//    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//        Column(
+//            modifier = Modifier
+//                .padding(innerPadding)
+//                .fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center
+//        ) {
+////             Image(
+////                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
+////                            contentDescription = "Imagen creditos"
+////                        )
+//            Card(
+//                modifier = Modifier.padding(16.dp),
+//                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+//            ) {
+//                Column(modifier = Modifier.padding(16.dp)) {
+//                    Text(text = "Unikit", style = MaterialTheme.typography.headlineMedium)
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                    OutlinedTextField(
+//                        value = "Ingresa tu correo electrónico",
+//                        onValueChange = {},
+//                        label = { Text("Correo electrónico") }
+//                    )
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    OutlinedTextField(
+//                        value = "Ingresa tu contraseña",
+//                        onValueChange = {},
+//                        label = { Text("Contraseña") }
+//                    )
+//                    Spacer(modifier = Modifier.height(16.dp))
+//                    Button(
+//                        onClick = {
+//                            //function auth
+//                            //conection DB
+//                            //comparacion de credenciales y auth inicio sesion
+//                            navController.navigate("menu_screen") // navigate to home screen (original behavior)
+//                        }
+//                    ) {
+//                        Text("Iniciar sesión")
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
+//}
 
-                }
+@Composable
+fun LoginScreen(
+    viewModel: SupabaseAuthViewModel = viewModel(),
+) {
+    val context = LocalContext.current
+    val userState by viewModel.userState
+
+    var userEmail by remember { mutableStateOf("") }
+    var userPassword by remember { mutableStateOf("") }
+
+    var currentUserState by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.isUserLoggedIn(
+            context,
+        )
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
+        TextField(
+            value = userEmail,
+            placeholder = {
+                Text(text = "Enter email")
+            },
+            onValueChange = {
+                userEmail = it
+            })
+        Spacer(modifier = Modifier.padding(8.dp))
+        TextField(
+            value = userPassword,
+            placeholder = {
+                Text(text = "Enter password")
+            },
+            onValueChange = {
+                userPassword = it
             }
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(onClick = {
+            viewModel.signUp(
+                context,
+                userEmail,
+                userPassword,
+            )
+        }) {
+            Text(text = "Sign Up")
+        }
+
+        Button(onClick = {
+            viewModel.login(
+                context,
+                userEmail,
+                userPassword,
+            )
+        }) {
+            Text(text = "Login")
+        }
+
+        Button(
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+            onClick = {
+                viewModel.logout(context)
+            }) {
+            Text(text = "Logout")
+        }
+
+        when (userState) {
+            is UserState.Loading -> {
+                LoadingComponent()
+            }
+
+            is UserState.Success -> {
+                val message = (userState as UserState.Success).message
+                currentUserState = message
+            }
+
+            is UserState.Error -> {
+                val message = (userState as UserState.Error).message
+                currentUserState = message
+            }
+        }
+
+        if (currentUserState.isNotEmpty()) {
+            Text(text = currentUserState)
         }
     }
 }
-
 @Composable
 fun MenuScreen(navController: NavController) {
     // ... Add your desired UI elements for the new screen here ...
