@@ -384,7 +384,7 @@ fun Creditos_screen(navController: NavController) {
             Text(text = "Integrantes" , style = MaterialTheme.typography.headlineMedium)
             Text(text = "F.Mauricio Calvache Hoyos ")//, style = MaterialTheme.typography.headlineMedium)
             Text(text = "famacalho@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "Cristian Serna ")//, style = MaterialTheme.typography.headlineMedium)
+//            Text(text = "Cristian Serna ")//, style = MaterialTheme.typography.headlineMedium)
             Text(text = "cserna@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
             Text(text = "Universidad del Cauca")//, style = MaterialTheme.typography.headlineMedium)
             Text(text = "FIET")//, style = MaterialTheme.typography.headlineMedium)
