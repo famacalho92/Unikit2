@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,28 +22,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 //import androidx.compose.material3.Typography
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.res.painterResource
 //import androidx.navigation.compose.NavHost
 //import androidx.navigation.compose.composable
 //import androidx.navigation.compose.rememberNavController
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavHostController
 import com.example.unikit.data.model.UserState
 import com.example.unikit.ui.theme.UnikitTheme
-import io.github.jan.supabase.createSupabaseClient
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+
 //import io.github.jan.supabase.postgrest.Postgrest
 
 //val supabase = createSupabaseClient(
@@ -73,7 +68,7 @@ class MainActivity : ComponentActivity() {
 fun UnikitApp() {
     val navController = rememberNavController() // Crea una instancia de NavController
     NavHost(navController = navController, startDestination = "login") {
-//        composable("login") { LoginScreen(navController = navController) }
+        composable("login") { LoginScreen(navController = navController) }
         composable("menu_screen") { MenuScreen(navController = navController) }
         composable("horario_screen") { HorarioScreen(navController = navController) }
         composable("agenda_screen") { AgendaScreen(navController = navController) }
@@ -137,6 +132,7 @@ fun UnikitApp() {
 @Composable
 fun LoginScreen(
     viewModel: SupabaseAuthViewModel = viewModel(),
+    navController: NavHostController,
 ) {
     val context = LocalContext.current
     val userState by viewModel.userState
@@ -225,6 +221,8 @@ fun LoginScreen(
         }
     }
 }
+
+
 @Composable
 fun MenuScreen(navController: NavController) {
     // ... Add your desired UI elements for the new screen here ...
