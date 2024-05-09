@@ -183,22 +183,18 @@ fun LoginScreen(
         }
 
         Button(onClick = {
+
             viewModel.login(
                 context,
                 userEmail,
                 userPassword,
 
-            ){ loginResult ->
-                if (loginResult as Boolean) {
-                    // Login successful, navigate to menu screen
-                    navController.navigate("menu_screen")
-                } else {
-                    // Login failed, display error message
-                    currentUserState = "Login failed. Please check your credentials."
-                }
-            }
-        }) {
-            Text(text = "Iniciar sesión")
+            )
+        },
+            //enabled = userState is UserState.Success // Enable button only on successful login
+        ) {
+
+            Text(text = "Login")
         }
 
         Button(
@@ -217,6 +213,7 @@ fun LoginScreen(
             is UserState.Success -> {
                 val message = (userState as UserState.Success).message
                 currentUserState = message
+                navController.navigate("menu_screen")
             }
 
             is UserState.Error -> {
