@@ -56,6 +56,8 @@ class SupabaseAuthViewModel : ViewModel() {
         context: Context,
         userEmail: String,
         userPassword: String,
+        param: (Any) -> Unit,
+        //param: (Any) -> Unit,
     ) {
         viewModelScope.launch {
             try {

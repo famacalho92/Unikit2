@@ -187,9 +187,18 @@ fun LoginScreen(
                 context,
                 userEmail,
                 userPassword,
-            )
+
+            ){ loginResult ->
+                if (loginResult as Boolean) {
+                    // Login successful, navigate to menu screen
+                    navController.navigate("menu_screen")
+                } else {
+                    // Login failed, display error message
+                    currentUserState = "Login failed. Please check your credentials."
+                }
+            }
         }) {
-            Text(text = "Login")
+            Text(text = "Iniciar sesión")
         }
 
         Button(
