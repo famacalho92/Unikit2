@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -20,18 +19,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-//import androidx.compose.material3.Typography
 import androidx.compose.ui.Alignment
-//import androidx.navigation.compose.NavHost
-//import androidx.navigation.compose.composable
-//import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,6 +35,12 @@ import androidx.navigation.NavHostController
 import com.example.unikit.data.model.UserState
 import com.example.unikit.ui.theme.UnikitTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.Image
+
+
+
+
 
 //import io.github.jan.supabase.postgrest.Postgrest
 
@@ -79,55 +79,6 @@ fun UnikitApp() {
     }
 }
 
-//@Composable
-//fun LoginScreen(navController: NavController) {
-//    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//        Column(
-//            modifier = Modifier
-//                .padding(innerPadding)
-//                .fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-////             Image(
-////                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
-////                            contentDescription = "Imagen creditos"
-////                        )
-//            Card(
-//                modifier = Modifier.padding(16.dp),
-//                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-//            ) {
-//                Column(modifier = Modifier.padding(16.dp)) {
-//                    Text(text = "Unikit", style = MaterialTheme.typography.headlineMedium)
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    OutlinedTextField(
-//                        value = "Ingresa tu correo electrónico",
-//                        onValueChange = {},
-//                        label = { Text("Correo electrónico") }
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    OutlinedTextField(
-//                        value = "Ingresa tu contraseña",
-//                        onValueChange = {},
-//                        label = { Text("Contraseña") }
-//                    )
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    Button(
-//                        onClick = {
-//                            //function auth
-//                            //conection DB
-//                            //comparacion de credenciales y auth inicio sesion
-//                            navController.navigate("menu_screen") // navigate to home screen (original behavior)
-//                        }
-//                    ) {
-//                        Text("Iniciar sesión")
-//                    }
-//
-//                }
-//            }
-//        }
-//    }
-//}
 
 @Composable
 fun LoginScreen(
@@ -227,63 +178,73 @@ fun LoginScreen(
         }
     }
 }
-
-
 @Composable
 fun MenuScreen(navController: NavController) {
-    // ... Add your desired UI elements for the new screen here ...
-
-    // Example content:
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Text at the top
             Text(text = "Unikit")
             Text(text = "Universidad del Cauca Kit")
 
-            Button(
-                onClick = {
-                    navController.navigate("horario_screen") // Handle button click on new screen (optional)
-                }
+            // Row for first two buttons with icons
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Horario de Clases ")
+                Button(onClick = { navController.navigate("horario_screen") }) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_horario),
+                        contentDescription = "Horario de Clases",
+                        modifier = Modifier.size(width = 90.dp, height = 90.dp)
+                    )
+                }
+                Button(onClick = { navController.navigate("agenda_screen") }) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_agenda_background),
+                        contentDescription = "Agenda",
+                        modifier = Modifier.size(width = 90.dp, height = 90.dp)
+                    )
+                }
             }
-            Button(
-                onClick = {
-                    navController.navigate("agenda_screen")   // Handle button click on new screen (optional)
-                }
+
+            // Row for next two buttons with icons
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text("Agenda")
+                Button(onClick = { navController.navigate("cuaderno_screen") }) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_cuaderno),
+                        contentDescription = "Cuaderno",
+                        modifier = Modifier.size(width = 90.dp, height = 90.dp)
+                    )
+                }
+                Button(onClick = { navController.navigate("ajustes_screen") }) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.ic_ajustes),
+                        contentDescription = "Ajustes",
+                        modifier = Modifier.size(width = 90.dp, height = 90.dp)
+                    )
+                }
             }
-            Button(
-                onClick = {
-                    navController.navigate("cuaderno_screen")  // Handle button click on new screen (optional)
-                }
-            ) {
-                Text("Cuaderno")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("ajustes_screen")  // Handle button click on new screen (optional)
-                }
-            ) {
-                Text("Ajustes")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("LoginScreen")   // Handle button click on new screen (optional)
-                }
-            ) {
+
+            // Single button at the bottom
+            Button(onClick = { navController.navigate("LoginScreen") }) {
                 Text("Cerrar sesión")
             }
         }
     }
 }
+
 @Composable
 fun HorarioScreen(navController: NavController) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -293,7 +254,7 @@ fun HorarioScreen(navController: NavController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Horario de Clases", style = MaterialTheme.typography.headlineMedium)
+            Text(text =  "Horario de Clases", style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(16.dp))
             // Bucle para mostrar las horas de clase
             for (franjaHoraria in obtenerHorario()) {
