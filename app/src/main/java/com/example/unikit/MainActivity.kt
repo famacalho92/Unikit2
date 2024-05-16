@@ -10,7 +10,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -27,11 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-//import androidx.compose.material3.Typography
 import androidx.compose.ui.Alignment
-//import androidx.navigation.compose.NavHost
-//import androidx.navigation.compose.composable
-//import androidx.navigation.compose.rememberNavController
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,16 +36,6 @@ import androidx.navigation.NavHostController
 import com.example.unikit.data.model.UserState
 import com.example.unikit.ui.theme.UnikitTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-
-//import io.github.jan.supabase.postgrest.Postgrest
-
-//val supabase = createSupabaseClient(
-//    supabaseUrl = "https://vhbutrkzjibajrwtofhm.supabase.co",
-//    supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZoYnV0cmt6amliYWpyd3RvZmhtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTE4MzU3OTMsImV4cCI6MjAyNzQxMTc5M30.HHwr7GJ9mYPuDUvV1EAvi4nuDomVWZYUyK8t_BW-pUE"
-//) {
-//    install(Postgrest)
-//}
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,61 +64,12 @@ fun UnikitApp() {
     }
 }
 
-//@Composable
-//fun LoginScreen(navController: NavController) {
-//    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//        Column(
-//            modifier = Modifier
-//                .padding(innerPadding)
-//                .fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-////             Image(
-////                            painter = painterResource(id = R.mipmap.ic_launcher ), //no carga imagen
-////                            contentDescription = "Imagen creditos"
-////                        )
-//            Card(
-//                modifier = Modifier.padding(16.dp),
-//                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-//            ) {
-//                Column(modifier = Modifier.padding(16.dp)) {
-//                    Text(text = "Unikit", style = MaterialTheme.typography.headlineMedium)
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    OutlinedTextField(
-//                        value = "Ingresa tu correo electrónico",
-//                        onValueChange = {},
-//                        label = { Text("Correo electrónico") }
-//                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    OutlinedTextField(
-//                        value = "Ingresa tu contraseña",
-//                        onValueChange = {},
-//                        label = { Text("Contraseña") }
-//                    )
-//                    Spacer(modifier = Modifier.height(16.dp))
-//                    Button(
-//                        onClick = {
-//                            //function auth
-//                            //conection DB
-//                            //comparacion de credenciales y auth inicio sesion
-//                            navController.navigate("menu_screen") // navigate to home screen (original behavior)
-//                        }
-//                    ) {
-//                        Text("Iniciar sesión")
-//                    }
-//
-//                }
-//            }
-//        }
-//    }
-//}
-
 @Composable
 fun LoginScreen(
     viewModel: SupabaseAuthViewModel = viewModel(),
     navController: NavHostController,
-) {
+)
+{
     val context = LocalContext.current
     val userState by viewModel.userState
 
@@ -148,88 +84,91 @@ fun LoginScreen(
         )
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(8.dp),
+        contentAlignment = Alignment.Center
     ) {
-        TextField(
-            value = userEmail,
-            placeholder = {
-                Text(text = "Enter email")
-            },
-            onValueChange = {
-                userEmail = it
-            })
-        Spacer(modifier = Modifier.padding(8.dp))
-        TextField(
-            value = userPassword,
-            placeholder = {
-                Text(text = "Enter password")
-            },
-            onValueChange = {
-                userPassword = it
-            }
-        )
-        Spacer(modifier = Modifier.padding(8.dp))
-        Button(onClick = {
-            viewModel.signUp(
-                context,
-                userEmail,
-                userPassword,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.wrapContentWidth()
+        ) {
+            TextField(
+                value = userEmail,
+                placeholder = {
+                    Text(text = "Enter email")
+                },
+                onValueChange = {
+                    userEmail = it
+                })
+            Spacer(modifier = Modifier.padding(8.dp))
+            TextField(
+                value = userPassword,
+                placeholder = {
+                    Text(text = "Enter password")
+                },
+                onValueChange = {
+                    userPassword = it
+                }
             )
-        }) {
-            Text(text = "Sign Up")
-        }
-
-        Button(onClick = {
-            viewModel.login(
-                context,
-                userEmail,
-                userPassword,
-            )
-        }) {
-            Text(text = "Login")
-        }
-
-        Button(
-            colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-            onClick = {
-                viewModel.logout(context)
+            Spacer(modifier = Modifier.padding(8.dp))
+            Button(onClick = {
+                viewModel.signUp(
+                    context,
+                    userEmail,
+                    userPassword,
+                )
             }) {
-            Text(text = "Logout")
-        }
-
-        when (userState) {
-            is UserState.Loading -> {
-                LoadingComponent()
+                Text(text = "Sign Up")
             }
 
-            is UserState.Success -> {
-                val message = (userState as UserState.Success).message
-                currentUserState = message
+            Button(onClick = {
+                viewModel.login(
+                    context,
+                    userEmail,
+                    userPassword,
+                )
+                // Navegar a la pantalla del menú después de iniciar sesión correctamente
+                navController.navigate("menu_screen")
+            }) {
+                Text(text = "Login")
             }
 
-            is UserState.Error -> {
-                val message = (userState as UserState.Error).message
-                currentUserState = message
+            Button(
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                onClick = {
+                    viewModel.logout(context)
+                }) {
+                Text(text = "Logout")
             }
-        }
 
-        if (currentUserState.isNotEmpty()) {
-            Text(text = currentUserState)
+            when (userState) {
+                is UserState.Loading -> {
+                    LoadingComponent()
+                }
+
+                is UserState.Success -> {
+                    val message = (userState as UserState.Success).message
+                    currentUserState = message
+                }
+
+                is UserState.Error -> {
+                    val message = (userState as UserState.Error).message
+                    currentUserState = message
+                }
+            }
+            if (currentUserState.isNotEmpty()) {
+                Text(text = currentUserState)
+            }
         }
     }
 }
 
-
 @Composable
 fun MenuScreen(navController: NavController) {
-    // ... Add your desired UI elements for the new screen here ...
-
-    // Example content:
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -240,44 +179,55 @@ fun MenuScreen(navController: NavController) {
             Text(text = "Unikit")
             Text(text = "Universidad del Cauca Kit")
 
-            Button(
-                onClick = {
-                    navController.navigate("horario_screen") // Handle button click on new screen (optional)
-                }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text("Horario de Clases ")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("agenda_screen")   // Handle button click on new screen (optional)
+                Column {
+                    Button(
+                        onClick = {
+                            navController.navigate("horario_screen")
+                        }
+                    ) {
+                        Text("Horario de Clases ")
+                    }
+                    Button(
+                        onClick = {
+                            navController.navigate("agenda_screen")
+                        }
+                    ) {
+                        Text("Agenda")
+                    }
                 }
-            ) {
-                Text("Agenda")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("cuaderno_screen")  // Handle button click on new screen (optional)
+
+                Column {
+                    Button(
+                        onClick = {
+                            navController.navigate("cuaderno_screen")
+                        }
+                    ) {
+                        Text("Cuaderno")
+                    }
+                    Button(
+                        onClick = {
+                            navController.navigate("ajustes_screen")
+                        }
+                    ) {
+                        Text("Ajustes")
+                    }
+                    Button(
+                        onClick = {
+                            navController.navigate("LoginScreen")
+                        }
+                    ) {
+                        Text("Cerrar sesión")
+                    }
                 }
-            ) {
-                Text("Cuaderno")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("ajustes_screen")  // Handle button click on new screen (optional)
-                }
-            ) {
-                Text("Ajustes")
-            }
-            Button(
-                onClick = {
-                    navController.navigate("LoginScreen")   // Handle button click on new screen (optional)
-                }
-            ) {
-                Text("Cerrar sesión")
             }
         }
     }
 }
+
 @Composable
 fun HorarioScreen(navController: NavController) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -336,10 +286,10 @@ fun AgendaScreen(navController: NavController) {
     }
 }
 
-// Define the data structure for an agenda item
+
 data class AgendaItem(val time: String, val title: String, val details: String? = null)
 
-// Function to define the sample daily agenda
+
 private fun getAgenda(): List<AgendaItem> {
     return listOf(
         AgendaItem("7:00 AM", "Clases","Calculo3"),
@@ -355,7 +305,7 @@ private fun getAgenda(): List<AgendaItem> {
         )
 }
 
-// Composable for displaying a single agenda item
+
 @Composable
 fun AgendaItem(agendaItem: AgendaItem) {
 
@@ -426,7 +376,7 @@ fun AjustesScreen(navController: NavController) {
             }
             Button(
                 onClick = {
-                    navController.navigate("agenda_screen")   // Handle button click on new screen (optional)
+                    navController.navigate("agenda_screen")
                 }
             ) {
                 Text("Usar Huella para Ingresar")
@@ -434,14 +384,14 @@ fun AjustesScreen(navController: NavController) {
             Text(text = "Notificaciones")
             Button(
                 onClick = {
-                    navController.navigate("cuaderno_screen")  // Handle button click on new screen (optional)
+                    navController.navigate("cuaderno_screen")
                 }
             ) {
                 Text("Notificaciones de Clases")
             }
             Button(
                 onClick = {
-                    navController.navigate("ajustes_screen")  // Handle button click on new screen (optional)
+                    navController.navigate("ajustes_screen")
                 }
             ) {
                 Text("Notificaciones de eventos")
@@ -449,14 +399,14 @@ fun AjustesScreen(navController: NavController) {
             Text(text = "Otros ajustes")
             Button(
                 onClick = {
-                    navController.navigate("LoginScreen")   // Handle button click on new screen (optional)
+                    navController.navigate("LoginScreen")
                 }
             ) {
                 Text("Ajustes de Idiomas")
             }
             Button(
                 onClick = {
-                    navController.navigate("Creditos_Screen")   // Handle button click on new screen (optional)
+                    navController.navigate("Creditos_Screen")
                 }
             ) {
                 Text("Acerca de nosotros")
@@ -477,21 +427,17 @@ fun Creditos_screen(navController: NavController) {
             verticalArrangement = Arrangement.Center
         ) {
            /* Image(
-                painter = painterResource(id = R.mipmap.ic_launcher_round), // Reemplaza con el ID de tu recurso de imagen
+                painter = painterResource(id = R.mipmap.ic_launcher_round),
                 contentDescription = "Imagen creditos"
             )*/
             Text(text = "Integrantes" , style = MaterialTheme.typography.headlineMedium)
-            Text(text = "F.Mauricio Calvache Hoyos ")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "famacalho@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
-//            Text(text = "Cristian Serna ")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "cserna@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "Universidad del Cauca")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "FIET")//, style = MaterialTheme.typography.headlineMedium)
-            Text(text = "2024")//, style = MaterialTheme.typography.headlineMedium)
-            /* Image(
-                            painter = painterResource(id = R.mipmap.ic_launcher_round), //no carga imagen
-                            contentDescription = "Imagen creditos"
-                        )*/
+            Text(text = "F.Mauricio Calvache Hoyos ")
+            Text(text = "famacalho@unicauca.edu.co")
+            Text(text = "Cristian Serna ")
+            Text(text = "cserna@unicauca.edu.co")
+            Text(text = "Universidad del Cauca")
+            Text(text = "FIET")
+            Text(text = "2024")
         }
     }
 
