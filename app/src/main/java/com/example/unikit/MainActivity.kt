@@ -36,6 +36,11 @@ import androidx.navigation.NavHostController
 import com.example.unikit.data.model.UserState
 import com.example.unikit.ui.theme.UnikitTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
+import androidx.compose.runtime.mutableStateListOf
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,12 +89,21 @@ fun LoginScreen(
         )
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(8.dp),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
     ) {
+        Image(
+            painter = painterResource(id = R.mipmap.ic_launcher_foreground ), // Replace 'your_image' with the actual image resource
+            contentDescription = "Logo", // Provide a content description for accessibility
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+        )
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -168,7 +182,7 @@ fun LoginScreen(
 
 @Composable
 fun MenuScreen(navController: NavController) {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -176,66 +190,106 @@ fun MenuScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Unikit")
-            Text(text = "Universidad del Cauca Kit")
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "UniKit",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            Image(
+                painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                contentDescription = "Descripción de la imagen",
+                modifier = Modifier.size(120.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column {
-                    Button(
+                    ButtonWithImage(
+                        imageId = R.drawable.horario,
+                        buttonText = "Horario de Clases",
                         onClick = {
                             navController.navigate("horario_screen")
                         }
-                    ) {
-                        Text("Horario de Clases ")
-                    }
-                    Button(
+                    )
+                    ButtonWithImage(
+                        imageId = R.drawable.agenda,
+                        buttonText = "Agenda",
                         onClick = {
                             navController.navigate("agenda_screen")
                         }
-                    ) {
-                        Text("Agenda")
-                    }
-                }
-
-                Column {
-                    Button(
+                    )
+                    ButtonWithImage(
+                        imageId = R.drawable.cuaderno,
+                        buttonText = "Cuaderno",
                         onClick = {
                             navController.navigate("cuaderno_screen")
                         }
-                    ) {
-                        Text("Cuaderno")
-                    }
-                    Button(
+                    )
+                }
+                Column {
+                    ButtonWithImage(
+                        imageId = R.drawable.ajustes,
+                        buttonText = "Ajustes",
                         onClick = {
                             navController.navigate("ajustes_screen")
                         }
-                    ) {
-                        Text("Ajustes")
-                    }
-                    Button(
+                    )
+                    ButtonWithImage(
+                        imageId = R.drawable.logout,
+                        buttonText = "Cerrar sesión",
                         onClick = {
-                            navController.navigate("LoginScreen")
+                            navController.navigate("login")
+
                         }
-                    ) {
-                        Text("Cerrar sesión")
-                    }
+                    )
                 }
             }
         }
     }
 }
-
+@Composable
+fun ButtonWithImage(
+    @DrawableRes imageId: Int,
+    buttonText: String,
+    onClick: () -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(vertical = 8.dp)
+    ) {
+        Image(
+            painter = painterResource(id = imageId),
+            contentDescription = null,
+            modifier = Modifier.size(64.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = onClick,
+            modifier = Modifier.sizeIn(maxWidth = 120.dp)
+        ) {
+            Text(
+                text = if (buttonText.length > 10) buttonText.substring(0, 10) + "..." else buttonText,
+                modifier = Modifier.widthIn(120.dp)
+            )
+        }
+    }
+}
 @Composable
 fun HorarioScreen(navController: NavController) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
         Column(
+
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
+
         ) {
             Text(text = "Horario de Clases", style = MaterialTheme.typography.headlineMedium)
             Spacer(modifier = Modifier.height(16.dp))
@@ -251,7 +305,6 @@ fun HorarioScreen(navController: NavController) {
     }
 }
 
-// Función para definir el horario de clases
 private fun obtenerHorario(): List<Pair<String, String>> {
     val dias = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
     val duracionClase = 2 // Horas
@@ -305,7 +358,6 @@ private fun getAgenda(): List<AgendaItem> {
         )
 }
 
-
 @Composable
 fun AgendaItem(agendaItem: AgendaItem) {
 
@@ -324,6 +376,8 @@ fun AgendaItem(agendaItem: AgendaItem) {
 }
 @Composable
 fun CuadernoScreen(navController: NavController) {
+    val cuadernos = remember { mutableStateListOf<String>() }
+
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
@@ -332,27 +386,35 @@ fun CuadernoScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = "Cuaderno" , style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Cuaderno", style = MaterialTheme.typography.headlineMedium)
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Column {
+                cuadernos.forEach { cuaderno ->
+                    Button(
+                        onClick = {
+                            // logica new books
+                                                    },
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    ) {
+                        Text(cuaderno)
+                    }
+                }
+            }
         }
     }
+
     Button(
         onClick = {
-            navController.navigate("add_book") // Handle button click on new screen (optional)
-        }
+                       cuadernos.add("Cuaderno ${cuadernos.size + 1}")
+        },
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
     ) {
         Text("Añadir nuevo Cuaderno")
     }
-    /*Column(modifier = modifier.padding(16.dp)) {
-        // Changes to count are now tracked by Compose
-        val count: MutableState<Int> = mutableStateOf(0)
-
-        Text("You've had ${count.value} book.")
-        Button(onClick = { count.value++ }, Modifier.padding(top = 8.dp)) {
-            Text("Add book")
-        }
-    }
-*/
 }
 @Composable
 fun AjustesScreen(navController: NavController) {
@@ -414,8 +476,6 @@ fun AjustesScreen(navController: NavController) {
         }
     }
 }
-
-
 @Composable
 fun Creditos_screen(navController: NavController) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -426,19 +486,25 @@ fun Creditos_screen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-           /* Image(
-                painter = painterResource(id = R.mipmap.ic_launcher_round),
-                contentDescription = "Imagen creditos"
-            )*/
-            Text(text = "Integrantes" , style = MaterialTheme.typography.headlineMedium)
-            Text(text = "F.Mauricio Calvache Hoyos ")
-            Text(text = "famacalho@unicauca.edu.co")
-            Text(text = "Cristian Serna ")
-            Text(text = "cserna@unicauca.edu.co")
-            Text(text = "Universidad del Cauca")
-            Text(text = "FIET")
-            Text(text = "2024")
+            Image(
+                painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                contentDescription = null,
+                modifier = Modifier.size(80.dp)
+            )
+            Text(text = "UniKit", style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Integrantes", style = MaterialTheme.typography.headlineMedium)
+            Text(text = "F.Mauricio Calvache Hoyos ")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "famacalho@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Cristian Serna ")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "cserna@unicauca.edu.co")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "Universidad del Cauca")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "FIET")//, style = MaterialTheme.typography.headlineMedium)
+            Text(text = "2024")//, style = MaterialTheme.typography.headlineMedium)
+            Image(
+                painter = painterResource(id = R.drawable.esunic),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp)
+            )
         }
     }
-
 }
